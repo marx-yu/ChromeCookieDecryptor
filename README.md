@@ -1,11 +1,10 @@
 # ChromeCookieDecryptor
------------------------
+
 Decrypt cookie values in Chrome Sqlite DB on OX S, use Openssl
 
 ## Dependencies
 
-openssl, sqlite3
-almost all, they have installed on mac os x.
+openssl, sqlite3. Almost all, they have installed on mac os x.
 
 ## Build
 
