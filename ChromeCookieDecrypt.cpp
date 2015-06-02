@@ -1,9 +1,8 @@
 //
 //  ChromeCookieDecrypt.cpp
-//  synccore
 //
 //  Created by yuyg on 15/6/2.
-//  Copyright (c) 2015年 emacle. All rights reserved.
+//  Copyright (c) 2015 emacle. All rights reserved.
 //
 
 #include "ChromeCookieDecrypt.h"
@@ -37,8 +36,6 @@ int readOneCookieForTest(sqlite3 *db, string *name, string *value)
         {
             return rc;
         }
-        /* Bind the key to the SQL variable. */
-        //sqlite3_bind_text(pStmt, 1, zKey, -1, SQLITE_STATIC);
         
         rc = sqlite3_step(pStmt);
         if( rc==SQLITE_ROW )
@@ -47,8 +44,6 @@ int readOneCookieForTest(sqlite3 *db, string *name, string *value)
             int blob_len = sqlite3_column_bytes(pStmt, 1);
             *name = string((const char*)sqlite3_column_text(pStmt, 0), name_len);
             *value = string((const char*)sqlite3_column_blob(pStmt, 1), blob_len);
-            //*pzBlob = (unsigned char *)malloc(*pnBlob);
-            //memcpy(*pzBlob, sqlite3_column_blob(pStmt, 0), *pnBlob);
         }
         rc = sqlite3_finalize(pStmt);
     } while( rc==SQLITE_SCHEMA );
@@ -96,7 +91,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        printf("open db file failed, you should change right the cookies file path on your mac\n");
+        printf("open db file failed, you should change the cookies file path to the right one on your mac\n");
         databaseError(db);
         return 1;
     }
@@ -130,7 +125,6 @@ bool DecryptChromeCookie(const string& password, const string &enc_value, string
         decryptedtext_len = decrypt((const unsigned char *)raw_enc_value.c_str(), raw_enc_value.size(), aes_key, iv, decryptedtext);
         if (decryptedtext_len > 0)
         {
-            decryptedtext[decryptedtext_len] = '\0';
             *dec_value = string((char *)decryptedtext, decryptedtext_len);
             ret = true;
         }
